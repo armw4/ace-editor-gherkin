@@ -11,6 +11,56 @@ html
   script(src="https://rawgithub.com/ajaxorg/ace-builds/master/src/mode-gherkin.js" type="text/javascript" charset="utf-8")
   script(src="http://code.jquery.com/jquery-2.0.3.min.js")
   script.
+    var CONTEXT = {
+        issueKey: 'STVS-909'
+    };
+
+    function createError(response) {
+        var error = new Error(response.statusText)
+        error.response = response;
+    }
+
+    function checkStatus(response) {
+      if (response.status >= 200 && response.status < 300) {
+        return response.json();
+      } else {
+        var error = createError(response);
+        throw error;
+      }
+    }
+
+    var form = document.getElementById('gherkin-form');
+
+    form.addEventListener('submit', saveContent);
+
+    function saveContent(e) {
+        e.preventDefault();
+
+        var url = '/gherkin/' + encodeURIComponent(CONTEXT.issueKey);
+        var body = {
+            content: editor.getValue()
+        };
+
+        fetch(url, {
+            method: 'PUT',
+            body: JSON.stringify(body)
+        })
+        .then(function(response) {
+            if (response.ok) {
+                return checkStatus(response);
+            } else {
+                var error = createError(response);
+                throw error;
+            }
+        })
+        .then(function(data) {
+            console.log(data);
+        })
+        .catch(function(error) {
+            console.log('request failed', error)
+        });
+    }
+  script.
     var langTools = ace.require("ace/ext/language_tools");
     var GherkinMode = ace.require("ace/mode/gherkin").Mode;
     var editor = ace.edit("editor");
