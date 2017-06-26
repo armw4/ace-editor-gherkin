@@ -1,0 +1,39 @@
+doctype html
+html
+  head
+    title= title
+    link(rel='stylesheet', href='/stylesheets/style.css')
+  body
+  block content
+  script(src="https://rawgithub.com/ajaxorg/ace-builds/master/src/ace.js" type="text/javascript" charset="utf-8")
+  script(src="https://rawgithub.com/ajaxorg/ace-builds/master/src/ext-language_tools.js" type="text/javascript" charset="utf-8")
+  script(src="https://rawgithub.com/ajaxorg/ace-builds/master/src/theme-twilight.js" type="text/javascript" charset="utf-8")
+  script(src="https://rawgithub.com/ajaxorg/ace-builds/master/src/mode-gherkin.js" type="text/javascript" charset="utf-8")
+  script(src="http://code.jquery.com/jquery-2.0.3.min.js")
+  script.
+    var langTools = ace.require("ace/ext/language_tools");
+    var GherkinMode = ace.require("ace/mode/gherkin").Mode;
+    var editor = ace.edit("editor");
+
+    editor.session.setMode(new GherkinMode());
+    editor.setTheme("ace/theme/twilight");
+    editor.setOptions({enableBasicAutocompletion: true});
+
+    // uses http://rhymebrain.com/api.html
+    var rhymeCompleter = {
+        getCompletions: function(editor, session, pos, prefix, callback) {
+          console.log(prefix)
+          console.log(pos)
+          console.log(session)
+            if (prefix.length === 0) { callback(null, []); return }
+            $.getJSON(
+                "http://rhymebrain.com/talk?function=getRhymes&word=" + prefix,
+                function(wordList) {
+                    // wordList like [{"word":"flow","freq":24,"score":300,"flags":"bc","syllables":"1"}]
+                    callback(null, wordList.map(function(ea) {
+                        return {name: ea.word, value: ea.word, score: ea.score, meta: "rhyme"}
+                    }));
+                })
+        }
+    }
+    langTools.addCompleter(rhymeCompleter);
