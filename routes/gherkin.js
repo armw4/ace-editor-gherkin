@@ -9,8 +9,9 @@ const camelize = require('camelize');
 
 router.get('/:issueKey', (req, res) => {
   const { issueKey } = req.params;
+
   if (!workItem.exists(issueKey)) {
-    res.sendStatus(404, 'Not Found');
+    return res.sendStatus(404, 'Not Found');
   }
 
   const item = workItem.getWorkItem(issueKey);
