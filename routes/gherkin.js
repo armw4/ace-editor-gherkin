@@ -5,9 +5,10 @@ const github = require('../lib/github');
 const workItem = require('../lib/work-item');
 const ClientError = require('../lib/errors').ClientError;
 const ServerError = require('../lib/errors').ServerError;
+const handleError = require('../lib/errors');
 const camelize = require('camelize');
 
-router.get('/:issueKey', (req, res) => {
+router.get('/:issueKey', async (req, res) => {
   const { issueKey } = req.params;
 
   if (!workItem.exists(issueKey)) {
@@ -30,18 +31,18 @@ router.put('/:issueKey', async (req, res) => {
   const githubWrite = workItemExists ? github.updateFeatureFile : github.createFeatureFile;
 
   try {
-    await githubWrite(issueKey, data);
+    await githubWrite(issueKey, {
+      content: req.body.content
+    });
 
     if (workItemExists) {
       workItem.updateWorkItem(issueKey);
     } else {
-      const data = {
+      workItem.createWorkItem(issueKey, {
         issueKey,
         created: Date.now(),
         externalPath: github.featureFilePath(issueKey)
-      };
-
-      workItem.createWorkItem(issueKey, data);
+      });
     }
 
     res.send({ key: 'value' });
