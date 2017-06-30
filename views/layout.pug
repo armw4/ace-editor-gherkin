@@ -17,6 +17,8 @@ html
     function createError(response) {
         var error = new Error(response.statusText)
         error.response = response;
+
+        return error;
     }
 
     function checkStatus(response) {
