@@ -5,7 +5,7 @@ const github = require('../lib/github');
 const workItem = require('../lib/work-item');
 const ClientError = require('../lib/errors').ClientError;
 const ServerError = require('../lib/errors').ServerError;
-const handleError = require('../lib/errors');
+const handleError = require('../lib/errors').handleError;
 const camelize = require('camelize');
 
 router.get('/:issueKey', async (req, res) => {
@@ -16,13 +16,18 @@ router.get('/:issueKey', async (req, res) => {
   }
 
   const item = workItem.getWorkItem(issueKey);
-  const featureFile = github.getFeatureFile(issueKey);
-  const consolidatedResource = camelize({
-    ...item,
-    ...featureFile
-  });
 
-  res.send(consolidatedResource);
+  try {
+    const featureFile = await github.getFeatureFile(issueKey);
+    const consolidatedResource = camelize({
+      ...item,
+      ...featureFile
+    });
+
+    res.send(consolidatedResource);
+  } catch(e) {
+    handleError(res, e);
+  }
 });
 
 router.put('/:issueKey', async (req, res) => {
@@ -47,14 +52,7 @@ router.put('/:issueKey', async (req, res) => {
 
     res.send({ key: 'value' });
   } catch(e) {
-    if (e instanceof ClientError) {
-      res.sendStatus(e.response.status, e.message);
-    } else if (e instanceof ServerError) {
-      res.sendStatus(502, 'Proxied Connection Error');
-    } else {
-      console.error(e);
-      res.sendStatus(500, 'Internal Server Error');
-    }
+    handleError(res, e);
   }
 });
 
