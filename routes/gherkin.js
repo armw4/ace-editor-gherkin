@@ -19,10 +19,8 @@ router.get('/:issueKey', async (req, res) => {
 
   try {
     const featureFile = await github.getFeatureFile(issueKey);
-    const consolidatedResource = camelize({
-      ...item,
-      ...featureFile
-    });
+    const merge = Object.assign({}, item, featureFile);
+    const consolidatedResource = camelize(merge);
 
     res.send(consolidatedResource);
   } catch(e) {
@@ -57,10 +55,8 @@ router.put('/:issueKey', async (req, res) => {
     }
 
     const item = workItem.getWorkItem(issueKey);
-    const consolidatedResource = camelize({
-      ...item,
-      ...featureFile
-    });
+    const merge = Object.assign({}, item, featureFile);
+    const consolidatedResource = camelize(merge);
 
     res.send(consolidatedResource);
   } catch(e) {
