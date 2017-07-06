@@ -39,7 +39,7 @@ router.put('/:issueKey', async (req, res) => {
   try {
     const { feature } = gherkin.parse(content);
 
-    await githubWrite(issueKey, {
+    const featureFile = await githubWrite(issueKey, {
       content
     });
 
@@ -56,7 +56,13 @@ router.put('/:issueKey', async (req, res) => {
       });
     }
 
-    res.send({ key: 'value' });
+    const item = workItem.getWorkItem(issueKey);
+    const consolidatedResource = camelize({
+      ...item,
+      ...featureFile
+    });
+
+    res.send(consolidatedResource);
   } catch(e) {
     handleError(res, e);
   }
