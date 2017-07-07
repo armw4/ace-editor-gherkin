@@ -9,15 +9,14 @@ const gherkin = require('../lib/gherkin');
 const camelize = require('camelize');
 
 router.get('/:issueKey', async (req, res) => {
-  const { issueKey } = req.params;
-
-  if (!workItem.exists(issueKey)) {
-    return res.sendStatus(404, 'Not Found');
-  }
-
-  const item = workItem.getWorkItem(issueKey);
-
   try {
+    const { issueKey } = req.params;
+
+    if (!workItem.exists(issueKey)) {
+      return res.sendStatus(404, 'Not Found');
+    }
+
+    const item = workItem.getWorkItem(issueKey);
     const featureFile = await github.getFeatureFile(issueKey);
     const merge = Object.assign({}, item, featureFile);
     const consolidatedResource = camelize(merge);
@@ -29,12 +28,11 @@ router.get('/:issueKey', async (req, res) => {
 });
 
 router.put('/:issueKey', async (req, res) => {
-  const { issueKey } = req.params;
-  const workItemExists = workItem.exists(issueKey);
-  const githubWrite = workItemExists ? github.updateFeatureFile : github.createFeatureFile;
-  const { content } = req.body;
-
   try {
+    const { issueKey } = req.params;
+    const workItemExists = workItem.exists(issueKey);
+    const githubWrite = workItemExists ? github.updateFeatureFile : github.createFeatureFile;
+    const { content } = req.body;
     const { feature } = gherkin.parse(content);
 
     const featureFile = await githubWrite(issueKey, {
