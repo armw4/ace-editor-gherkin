@@ -1,1 +1,46 @@
-{}
+{
+  "STVS-909": {
+    "issueKey": "STVS-909",
+    "created": 1499470068769,
+    "externalPath": "/features/STVS-909.feature",
+    "feature": {
+      "name": "Multiple site support",
+      "scenarios": [
+        {
+          "name": "Wilson posts to his own blog",
+          "steps": [
+            {
+              "keyword": "Given",
+              "text": "I am logged in as Wilson"
+            },
+            {
+              "keyword": "When",
+              "text": "I try to post to \"Expensive Therapy\""
+            },
+            {
+              "keyword": "Then",
+              "text": "I should see \"Your article was published.\""
+            }
+          ]
+        },
+        {
+          "name": "Greg posts to a client's blog",
+          "steps": [
+            {
+              "keyword": "Given",
+              "text": "I am logged in as Greg"
+            },
+            {
+              "keyword": "When",
+              "text": "I try to post to \"Expensive Therapy\""
+            },
+            {
+              "keyword": "Then",
+              "text": "I should see \"Your article was published.\""
+            }
+          ]
+        }
+      ]
+    }
+  }
+}
