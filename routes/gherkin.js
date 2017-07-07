@@ -30,11 +30,10 @@ router.get('/:issueKey', async (req, res) => {
 router.put('/:issueKey', async (req, res) => {
   try {
     const { issueKey } = req.params;
+    const { content } = req.body;
     const workItemExists = workItem.exists(issueKey);
     const githubWrite = workItemExists ? github.updateFeatureFile : github.createFeatureFile;
-    const { content } = req.body;
     const { feature } = gherkin.parse(content);
-
     const featureFile = await githubWrite(issueKey, {
       content
     });
