@@ -14,4 +14,4 @@ Feature: Multiple site support
   Scenario: Greg posts to a client's blog
     Given I am logged in as Greg
     When I try to post to "Expensive Therapy"
-    Then I should see the text "Your article was published."
+    Then I should see "Your article was published."
