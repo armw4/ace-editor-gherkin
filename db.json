@@ -36,11 +36,12 @@
             },
             {
               "keyword": "Then",
-              "text": "I should see \"Your article was published.\""
+              "text": "I should see the text \"Your article was published.\""
             }
           ]
         }
       ]
-    }
+    },
+    "updated": 1499486167463
   }
 }
