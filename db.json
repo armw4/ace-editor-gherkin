@@ -5,21 +5,41 @@
     "externalPath": "/features/STVS-909.feature",
     "feature": {
       "name": "Multiple site support",
+      "background": {
+        "steps": [
+          {
+            "keyword": "Given",
+            "text": "Given a global administrator named \"Greg\""
+          },
+          {
+            "keyword": "And",
+            "text": "And a blog named \"Greg's anti-tax rants\""
+          },
+          {
+            "keyword": "And",
+            "text": "And a customer named \"Wilson\""
+          },
+          {
+            "keyword": "And",
+            "text": "And a blog named \"Expensive Therapy\" owned by \"Wilson\""
+          }
+        ]
+      },
       "scenarios": [
         {
           "name": "Wilson posts to his own blog",
           "steps": [
             {
               "keyword": "Given",
-              "text": "I am logged in as Wilson"
+              "text": "Given I am logged in as Wilson"
             },
             {
               "keyword": "When",
-              "text": "I try to post to \"Expensive Therapy\""
+              "text": "When I try to post to \"Expensive Therapy\""
             },
             {
               "keyword": "Then",
-              "text": "I should see \"Your article was published.\""
+              "text": "Then I should see \"Your article was published.\""
             }
           ]
         },
@@ -28,20 +48,20 @@
           "steps": [
             {
               "keyword": "Given",
-              "text": "I am logged in as Greg"
+              "text": "Given I am logged in as Greg"
             },
             {
               "keyword": "When",
-              "text": "I try to post to \"Expensive Therapy\""
+              "text": "When I try to post to \"Expensive Therapy\""
             },
             {
               "keyword": "Then",
-              "text": "I should see the text \"Your article was published.\""
+              "text": "Then I should see the text \"Your article was published.\""
             }
           ]
         }
       ]
     },
-    "updated": 1499486167463
+    "updated": 1499571549009
   }
 }
