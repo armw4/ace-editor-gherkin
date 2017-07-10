@@ -1,4 +1,12 @@
-importScripts('http://localhost:3000/javascripts/gherkin.js', 'http://localhost:3000/javascripts/require.js');
+self.addEventListener('install', function(event) {
+  console.log('Service Worker installing.');
+});
+
+self.addEventListener('activate', function(event) {
+  console.log('Service Worker activating.');
+});
+
+self.importScripts('http://localhost:3000/javascripts/gherkin.js', 'http://localhost:3000/javascripts/require.js');
 
 define('worker/gherkin', function(require, exports, module) {
   "use strict";
