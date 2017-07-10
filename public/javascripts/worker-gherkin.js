@@ -7871,14 +7871,14 @@ define("ace/mode/gherkin_worker",["require","exports","module","ace/lib/oop","ac
 
   var oop = require('ace/lib/oop');
   var Mirror = require('ace/worker/mirror').Mirror;
-  var lint = require('./gherkin/gherkin');
+  var Parser = require('./gherkin/gherkin').Parser;
+  var lint = new Parser();
 
   lint.stopAtFirstError = false;
 
   var GherkinWorker = exports.GherkinWorker = function(sender) {
     Mirror.call(this, sender);
     this.setTimeout(500);
-    this.setOptions();
   };
 
   oop.inherits(GherkinWorker, Mirror);
