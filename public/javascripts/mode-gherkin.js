@@ -10,7 +10,7 @@ var GherkinHighlightRules = function() {
         labels: "Feature|Background|Scenario(?: Outline)?|Examples",
         keywords: "Given|When|Then|And|But"
     }];
-    
+
     var labels = languages.map(function(l) {
         return l.labels;
     }).join("|");
@@ -132,9 +132,9 @@ oop.inherits(Mode, TextMode);
 
         var tokenizedLine = this.getTokenizer().getLineTokens(line, state);
         var tokens = tokenizedLine.tokens;
-        
+
         console.log(state)
-        
+
         if(line.match("[ ]*\\|")) {
             indent += "| ";
         }
@@ -142,7 +142,7 @@ oop.inherits(Mode, TextMode);
         if (tokens.length && tokens[tokens.length-1].type == "comment") {
             return indent;
         }
-        
+
 
         if (state == "start") {
             if (line.match("Scenario:|Feature:|Scenario Outline:|Background:")) {
@@ -151,9 +151,9 @@ oop.inherits(Mode, TextMode);
                 indent += space2;
             } else if(line.match("\\*.+")) {
                 indent += "* ";
-            } 
+            }
         }
-        
+
 
         return indent;
     };

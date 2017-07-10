@@ -1,4 +1,6 @@
-define(function(require, exports, module) {
+importScripts('http://localhost:3000/javascripts/gherkin.js', 'http://localhost:3000/javascripts/require.js');
+
+define('worker/gherkin', function(require, exports, module) {
   "use strict";
 
   var oop = require('ace/lib/oop');
