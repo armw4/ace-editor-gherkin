@@ -9,7 +9,6 @@ html
   script(src="/javascripts/ext-language_tools.js" type="text/javascript" charset="utf-8")
   script(src="/javascripts/theme-twilight.js" type="text/javascript" charset="utf-8")
   script(src="/javascripts/mode-gherkin.js" type="text/javascript" charset="utf-8")
-  script(src="/javascripts/gherkin.js" type="text/javascript" charset="utf-8")
   script.
     var CONTEXT = {
         issueKey: 'STVS-909'
@@ -69,23 +68,7 @@ html
   script.
     var langTools = ace.require("ace/ext/language_tools");
     var GherkinMode = ace.require('ace/mode/gherkin').Mode;
-    var WorkerClient = ace.require('ace/worker/worker_client').WorkerClient;
     var editor = ace.edit("editor");
-
-    GherkinMode.prototype.createWorker = function(session) {
-        var worker = new WorkerClient(['ace'], '/javascript/worker-gherkin', 'GherkinWorker');
-        worker.attachToDocument(session.getDocument());
-
-        worker.on('lint', function(results) {
-            session.setAnnotations(results.data);
-        });
-
-        worker.on('terminate', function() {
-            session.clearAnnotations();
-        });
-
-        return worker;
-    };
 
     editor.session.setMode(new GherkinMode());
     editor.setTheme('ace/theme/twilight');

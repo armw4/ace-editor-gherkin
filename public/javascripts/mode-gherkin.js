@@ -10,7 +10,7 @@ var GherkinHighlightRules = function() {
         labels: "Feature|Background|Scenario(?: Outline)?|Examples",
         keywords: "Given|When|Then|And|But"
     }];
-
+    
     var labels = languages.map(function(l) {
         return l.labels;
     }).join("|");
@@ -110,9 +110,10 @@ oop.inherits(GherkinHighlightRules, TextHighlightRules);
 exports.GherkinHighlightRules = GherkinHighlightRules;
 });
 
-define("ace/mode/gherkin",["require","exports","module","ace/lib/oop","ace/mode/text","ace/mode/gherkin_highlight_rules"], function(require, exports, module) {
+define("ace/mode/gherkin",["require","exports","module","ace/lib/oop","ace/worker/worker_client","ace/mode/text","ace/mode/gherkin_highlight_rules"], function(require, exports, module) {
 
 var oop = require("../lib/oop");
+var WorkerClient = require("../worker/worker_client").WorkerClient;
 var TextMode = require("./text").Mode;
 var GherkinHighlightRules = require("./gherkin_highlight_rules").GherkinHighlightRules;
 
@@ -157,6 +158,22 @@ oop.inherits(Mode, TextMode);
 
         return indent;
     };
+
+    this.createWorker = function(session) {
+        var worker = new WorkerClient(['ace'], 'ace/mode/gherkin_worker', 'GherkinWorker');
+        worker.attachToDocument(session.getDocument());
+
+        worker.on('lint', function(results) {
+           session.setAnnotations(results.data);
+        });
+
+        worker.on('terminate', function() {
+            session.clearAnnotations();
+        });
+
+        return worker;
+    };
+
 }).call(Mode.prototype);
 
 exports.Mode = Mode;
