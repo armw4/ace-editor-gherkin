@@ -7872,10 +7872,11 @@ define("ace/mode/gherkin_worker",["require","exports","module","ace/lib/oop","ac
   var oop = require('ace/lib/oop');
   var Mirror = require('ace/worker/mirror').Mirror;
   var Parser = require('./gherkin/gherkin').Parser;
-  var lint = new Parser();
+  var parser = new Parser();
 
-  lint.stopAtFirstError = false;
+  parser.stopAtFirstError = false;
 
+  var lint = parser.parse;
   var GherkinWorker = exports.GherkinWorker = function(sender) {
     Mirror.call(this, sender);
     this.setTimeout(500);
@@ -7890,6 +7891,7 @@ define("ace/mode/gherkin_worker",["require","exports","module","ace/lib/oop","ac
       try {
         lint(value);
       } catch(e) {
+        console.log(e);
         var errors = e.errors.map(function(error) {
           return {
             row: error.location.line - 1, // must be 0 based
