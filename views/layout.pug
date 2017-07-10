@@ -67,13 +67,13 @@ html
         });
     }
   script.
-    var langTools = ace.require("ace/ext/language_tools");
     var GherkinMode = ace.require('ace/mode/gherkin').Mode;
+    var langTools = ace.require("ace/ext/language_tools");
     var WorkerClient = ace.require('ace/worker/worker_client').WorkerClient;
     var editor = ace.edit("editor");
 
     GherkinMode.prototype.createWorker = function(session) {
-        var worker = new WorkerClient(['ace'], '/javascript/worker-gherkin', 'WorkerModule');
+        var worker = new WorkerClient(['ace'], '/javascript/worker-gherkin', 'GherkinWorker');
         worker.attachToDocument(session.getDocument());
 
         worker.on('lint', function(results) {

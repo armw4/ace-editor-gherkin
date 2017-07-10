@@ -7,13 +7,13 @@ define(function(require, exports, module) {
 
   lint.stopAtFirstError = false;
 
-  var WorkerModule = exports.WorkerModule = function(sender) {
+  var GherkinWorker = exports.GherkinWorker = function(sender) {
     Mirror.call(this, sender);
     this.setTimeout(500);
     this.setOptions();
   };
 
-  oop.inherits(WorkerModule, Mirror);
+  oop.inherits(GherkinWorker, Mirror);
 
   (function() {
     this.onUpdate = function() {
@@ -34,5 +34,5 @@ define(function(require, exports, module) {
         this.sender.emit('lint', errors);
       }
     };
-  }).call(WorkerModule.prototype);
+  }).call(GherkinWorker.prototype);
 });
