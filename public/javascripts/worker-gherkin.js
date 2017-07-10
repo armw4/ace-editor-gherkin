@@ -7890,6 +7890,7 @@ define("ace/mode/gherkin_worker",["require","exports","module","ace/lib/oop","ac
 
       try {
         lint(value);
+        this.sender.emit('lint', []);
       } catch(e) {
         console.log(e);
         var errors = e.errors.map(function(error) {
