@@ -9,6 +9,7 @@ html
   script(src="/javascripts/ext-language_tools.js" type="text/javascript" charset="utf-8")
   script(src="/javascripts/theme-twilight.js" type="text/javascript" charset="utf-8")
   script(src="/javascripts/mode-gherkin.js" type="text/javascript" charset="utf-8")
+  script(src="/javascripts/gherkin.js" type="text/javascript" charset="utf-8")
   script.
     var CONTEXT = {
         issueKey: 'STVS-909'
@@ -67,11 +68,27 @@ html
     }
   script.
     var langTools = ace.require("ace/ext/language_tools");
-    var GherkinMode = ace.require("ace/mode/gherkin").Mode;
+    var GherkinMode = ace.require('ace/mode/gherkin').Mode;
+    var WorkerClient = ace.require('ace/worker/worker_client').WorkerClient;
     var editor = ace.edit("editor");
 
+    GherkinMode.prototype.createWorker = function(session) {
+        var worker = new WorkerClient(['ace'], '/javascript/worker-gherkin', 'WorkerModule');
+        worker.attachToDocument(session.getDocument());
+
+        worker.on('lint', function(results) {
+            session.setAnnotations(results.data);
+        });
+
+        worker.on('terminate', function() {
+            session.clearAnnotations();
+        });
+
+        return worker;
+    };
+
     editor.session.setMode(new GherkinMode());
-    editor.setTheme("ace/theme/twilight");
+    editor.setTheme('ace/theme/twilight');
     editor.setOptions({enableBasicAutocompletion: true});
 
     // uses http://rhymebrain.com/api.html
@@ -82,11 +99,11 @@ html
           console.log(session)
             if (prefix.length === 0) { callback(null, []); return }
             $.getJSON(
-                "http://rhymebrain.com/talk?function=getRhymes&word=" + prefix,
+                'http://rhymebrain.com/talk?function=getRhymes&word=' + prefix,
                 function(wordList) {
                     // wordList like [{"word":"flow","freq":24,"score":300,"flags":"bc","syllables":"1"}]
                     callback(null, wordList.map(function(ea) {
-                        return {name: ea.word, value: ea.word, score: ea.score, meta: "rhyme"}
+                        return {name: ea.word, value: ea.word, score: ea.score, meta: 'rhyme'}
                     }));
                 })
         }
