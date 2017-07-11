@@ -52,7 +52,7 @@ html
         if (error.response) {
             error.response.text().then(function(text) {
                 statusBar.innerText = text;
-            })
+            });
         } else {
             statusBar.innerText = error.message;
         }
@@ -87,6 +87,23 @@ html
         })
         .catch(setErrorStatus);
     }
+
+    (function () {
+        var url = '/gherkin/' + encodeURIComponent(CONTEXT.issueKey);
+
+        fetch(url)
+        .then(validateResponse)
+        .then(function(data) {
+            editor.setValue(data.raw);
+        })
+        .catch(function(error) {
+            if (error.response && error.response.status === 404) {
+                return;
+            }
+
+            setErrorStatus(error);
+        });
+    }());
   script.
     var langTools = ace.require("ace/ext/language_tools");
     var GherkinMode = ace.require('ace/mode/gherkin').Mode;
