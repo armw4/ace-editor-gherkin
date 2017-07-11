@@ -9,6 +9,10 @@ html
   script(src="/javascripts/ext-language_tools.js" type="text/javascript" charset="utf-8")
   script(src="/javascripts/theme-twilight.js" type="text/javascript" charset="utf-8")
   script(src="/javascripts/mode-gherkin.js" type="text/javascript" charset="utf-8")
+  style.
+    .success { color: green; display: block; margin-bottom: 1em; }
+    .error { color: red; display: block; margin-bottom: 1em; }
+    .hidden { display: none; }
   script.
     var CONTEXT = {
         issueKey: 'STVS-909'
@@ -31,6 +35,7 @@ html
     }
 
     var form = document.getElementById('gherkin-form');
+    var statusBar = document.getElementById('status-bar');
 
     form.addEventListener('submit', saveContent);
 
@@ -58,11 +63,20 @@ html
                 throw error;
             }
         })
-        .then(function(data) {
-            console.log(data);
+        .then(function() {
+            statusBar.className = 'success';
+            statusBar.innerText = 'Successfully saved feature file';
         })
         .catch(function(error) {
-            console.log('request failed', error)
+            if (error.response) {
+                error.response.text().then(function(text) {
+                    statusBar.innerText = text;
+                })
+            } else {
+                statusBar.innerText = error.message;
+            }
+
+            statusBar.className = 'error';
         });
     }
   script.
