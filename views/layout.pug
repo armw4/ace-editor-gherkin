@@ -18,6 +18,11 @@ html
         issueKey: 'STVS-909'
     };
 
+    var form = document.getElementById('gherkin-form');
+    var statusBar = document.getElementById('status-bar');
+
+    form.addEventListener('submit', saveContent);
+
     function createError(response) {
         var error = new Error(response.statusText)
         error.response = response;
@@ -34,10 +39,31 @@ html
       }
     }
 
-    var form = document.getElementById('gherkin-form');
-    var statusBar = document.getElementById('status-bar');
+    function validateResponse(response) {
+        if (response.ok) {
+            return checkStatus(response);
+        } else {
+            var error = createError(response);
+            throw error;
+        }
+    }
 
-    form.addEventListener('submit', saveContent);
+    function setErrorStatus(error) {
+        if (error.response) {
+            error.response.text().then(function(text) {
+                statusBar.innerText = text;
+            })
+        } else {
+            statusBar.innerText = error.message;
+        }
+
+        statusBar.className = 'error';
+    }
+
+    function setSuccessStatus(message) {
+        statusBar.className = 'success';
+        statusBar.innerText = message;
+    }
 
     function saveContent(e) {
         e.preventDefault();
@@ -55,29 +81,11 @@ html
             body: JSON.stringify(body),
             headers, headers
         })
-        .then(function(response) {
-            if (response.ok) {
-                return checkStatus(response);
-            } else {
-                var error = createError(response);
-                throw error;
-            }
-        })
+        .then(validateResponse)
         .then(function() {
-            statusBar.className = 'success';
-            statusBar.innerText = 'Successfully saved feature file';
+            setSuccessStatus('Successfully saved feature file');
         })
-        .catch(function(error) {
-            if (error.response) {
-                error.response.text().then(function(text) {
-                    statusBar.innerText = text;
-                })
-            } else {
-                statusBar.innerText = error.message;
-            }
-
-            statusBar.className = 'error';
-        });
+        .catch(setErrorStatus);
     }
   script.
     var langTools = ace.require("ace/ext/language_tools");

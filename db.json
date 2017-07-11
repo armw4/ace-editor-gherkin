@@ -4,64 +4,12 @@
     "created": 1499470068769,
     "externalPath": "/features/STVS-909.feature",
     "feature": {
-      "name": "Multiple site support",
+      "name": "Hello",
       "background": {
-        "steps": [
-          {
-            "keyword": "Given",
-            "text": "Given a global administrator named \"Greg\""
-          },
-          {
-            "keyword": "And",
-            "text": "And a blog named \"Greg's anti-tax rants\""
-          },
-          {
-            "keyword": "And",
-            "text": "And a customer named \"Wilson\""
-          },
-          {
-            "keyword": "And",
-            "text": "And a blog named \"Expensive Therapy\" owned by \"Wilson\""
-          }
-        ]
+        "steps": []
       },
-      "scenarios": [
-        {
-          "name": "Wilson posts to his own blog",
-          "steps": [
-            {
-              "keyword": "Given",
-              "text": "Given I am logged in as Wilson"
-            },
-            {
-              "keyword": "When",
-              "text": "When I try to post to \"Expensive Therapy\""
-            },
-            {
-              "keyword": "Then",
-              "text": "Then I should see \"Your article was published.\""
-            }
-          ]
-        },
-        {
-          "name": "Greg posts to a client's blog",
-          "steps": [
-            {
-              "keyword": "Given",
-              "text": "Given I am logged in as Greg"
-            },
-            {
-              "keyword": "When",
-              "text": "When I try to post to \"Expensive Therapy\""
-            },
-            {
-              "keyword": "Then",
-              "text": "Then I should see the text \"Your article was published.\""
-            }
-          ]
-        }
-      ]
+      "scenarios": []
     },
-    "updated": 1499571549009
+    "updated": 1499785452066
   }
 }
