@@ -1,1 +1,1 @@
-Feature: I like soup
+Feature: Hello
