@@ -95,6 +95,7 @@ html
         .then(validateResponse)
         .then(function(data) {
             editor.setValue(data.raw);
+            editor.clearSelection();
         })
         .catch(function(error) {
             if (error.response && error.response.status === 404) {
