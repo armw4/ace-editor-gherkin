@@ -27,6 +27,6 @@ Feature: Multiple site support
     Then I should see "Hey! That's not your blog!"
 
   Scenario: Greg posts to a client's blog site
-    Given I am logged in as Gre
+    Given I am logged in as Greg
     When I try to post to "Expensive Therapy"
     Then I should see "Your article was published."
