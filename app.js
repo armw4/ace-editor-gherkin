@@ -23,18 +23,23 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use((req, _, next) => {
+  req.organizationId = 'ambrose-1290';
+  next();
+});
+
 app.use('/', index);
 app.use('/gherkin', gherkin);
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use((req, res, next) => {
   var err = new Error('Not Found');
   err.status = 404;
   next(err);
 });
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use((err, req, res, next) => {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
@@ -42,6 +47,18 @@ app.use(function(err, req, res, next) {
   // render the error page
   res.status(err.status || 500);
   res.render('error');
+});
+
+mongoose.connect('mongodb://localhost/gherkin', {
+  useMongoClient: true,
+  // When your application starts up, Mongoose automatically calls ensureIndex for each defined index in your schema.
+  // Mongoose will call ensureIndex for each index sequentially, and emit an 'index' event on the model when all the ensureIndex
+  // calls succeeded or when there was an error. While nice for development, it is recommended this behavior be disabled
+  // in production since index creation can cause a significant performance impact. Disable the behavior by setting the autoIndex
+  // option of your schema to false, or globally on the connection by setting the option config.autoIndex to false.
+  //config: {
+    //autoIndex: app.get('env') === 'development'
+  //}
 });
 
 mongoose.Promise = global.Promise;
