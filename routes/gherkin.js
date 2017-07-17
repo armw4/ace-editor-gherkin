@@ -37,7 +37,7 @@ router.put('/:issueKey', async (req, res) => {
     const scenarioSteps = scenarios.map(({ steps }) => steps).reduce((acc, steps) => [...acc, ...steps], []);
 
     const allSteps = [...backgroundSteps, ...scenarioSteps].map((step) => {
-      return Object.assign({}, step, { issueKey, updated: Date.now, organizationId });
+      return Object.assign({}, step, { issueKey, updated: Date.now(), organizationId });
     });
 
     const featureFile = await githubWrite(issueKey, {
