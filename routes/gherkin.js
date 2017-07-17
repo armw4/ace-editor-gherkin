@@ -33,7 +33,7 @@ router.put('/:issueKey', async (req, res) => {
     const stepsExist = await step.exists(issueKey, organizationId);
     const githubWrite = stepsExist ? github.updateFeatureFile : github.createFeatureFile;
     const { feature } = gherkin.parse(content);
-    const { background: { backgroundSteps }, scenarios } = feature;
+    const { background: { steps: backgroundSteps }, scenarios } = feature;
     const scenarioSteps = scenarios.map(({ steps }) => steps).reduce((acc, steps) => [...acc, ...steps], []);
 
     const allSteps = [...backgroundSteps, ...scenarioSteps].map((step) => {
