@@ -25,6 +25,7 @@ Feature: Multiple site support
     Given I am logged in as Dr. Bill
     When I try to post to "Greg's anti-tax rants"
     Then I should see "Hey! That's not your blog!"
+    Given I am logged in as Given I am logged in as Greg Logan
 
   Scenario: Greg posts to a client's blog site
     Given I am logged in as Greg
