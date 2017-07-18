@@ -8,6 +8,22 @@ const handleError = require('../lib/errors').handleError;
 const gherkin = require('../lib/gherkin');
 const camelize = require('camelize');
 
+router.get('/steps', async(req, res) => {
+  try {
+    const { q } = req.query;
+
+    if (!q) {
+      return res.status(422).send('q parameter required');
+    }
+
+    const results = await step.search(req.organizationId, q);
+
+    res.send(results);
+  } catch(e) {
+    handleError(res, e);
+  }
+});
+
 router.get('/:issueKey', async (req, res) => {
   try {
     const { issueKey } = req.params;
@@ -20,22 +36,6 @@ router.get('/:issueKey', async (req, res) => {
     const featureFile = await github.getFeatureFile(issueKey);
 
     res.send(camelize(featureFile));
-  } catch(e) {
-    handleError(res, e);
-  }
-});
-
-router.get('/steps', async(req, res) => {
-  try {
-    const { q } = req.query;
-
-    if (!q) {
-      return res.status(422).send('q parameter required');
-    }
-
-    const results = await step.search(req.organizationId, q);
-
-    res.send(results);
   } catch(e) {
     handleError(res, e);
   }
