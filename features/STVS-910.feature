@@ -24,6 +24,7 @@ Feature: Multiple site support
     And a blog named "Expensive Therapy" owned by "Dr. Bill"
     But I am home
     Then I should see "Your article was published."
+    Then I should see "Your article was published."
 
   Scenario: Dr. Bill tries to post to somebody else's blog, and fails
     Given I am logged in as Dr. Bill
