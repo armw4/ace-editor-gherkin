@@ -121,7 +121,7 @@ html
   script.
     var langTools = ace.require("ace/ext/language_tools");
     var GherkinMode = ace.require('ace/mode/gherkin').Mode;
-    var STEP_REGEX = /^Given|When|Then|And|But/i;
+    var STEP_REGEX = /^Given|When|Then|And|But/;
     var editor = ace.edit("editor");
 
     editor.session.setMode(new GherkinMode());
