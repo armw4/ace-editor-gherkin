@@ -29,7 +29,8 @@ Feature: Multiple site support
     But I am home
     Then I should see "Your article was published."
     Then I should see "Your article was published."
-
+    Then I should be a new step
+   
   Scenario: Dr. Bill tries to post to somebody else's blog, and fails
     Given I am logged in as Dr. Bill
     When I try to post to "Greg's anti-tax rants"
