@@ -14,12 +14,28 @@ router.get('/:issueKey', async (req, res) => {
     const stepsExist = await step.exists(issueKey, req.organizationId);
 
     if (!stepsExist) {
-      return res.sendStatus(404, 'Not Found');
+      return res.sendStatus(404);
     }
 
     const featureFile = await github.getFeatureFile(issueKey);
 
     res.send(camelize(featureFile));
+  } catch(e) {
+    handleError(res, e);
+  }
+});
+
+router.get('/steps', async(req, res) => {
+  try {
+    const { q } = req.query;
+
+    if (!q) {
+      return res.status(422).send('q parameter required');
+    }
+
+    const results = await step.search(req.organizationId, q);
+
+    res.send(results);
   } catch(e) {
     handleError(res, e);
   }
