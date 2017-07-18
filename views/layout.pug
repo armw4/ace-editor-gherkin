@@ -144,7 +144,11 @@ html
             fetch(url)
             .then(validateResponse)
             .then(function(data) {
-                console.log(data);
+                var steps = data.map(function(step) {
+                    return { value: step.text, meta: 'step' };
+                });
+
+                callback(null, steps);
             })
             .catch(setErrorStatus);
         }
