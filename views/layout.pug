@@ -126,8 +126,11 @@ html
 
     editor.session.setMode(new GherkinMode());
     editor.setTheme('ace/theme/twilight');
-    editor.setOptions({enableBasicAutocompletion: true});
-    editor.$blockScrolling = Infinity
+    editor.$blockScrolling = Infinity;
+    editor.setOptions({
+        enableBasicAutocompletion: true,
+        enableLiveAutocompletion: true
+    });
 
     // uses http://rhymebrain.com/api.html
     var stepCompleter = {
