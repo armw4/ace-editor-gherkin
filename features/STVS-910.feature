@@ -10,6 +10,10 @@ Feature: Multiple site support
     Given there are <start> cucumbers
     When I eat <eat> cucumbers
     Then I should have <left> cucumbers
+    Then I should see "Hey! That's not your blog!"
+    Then I should have <left> cucumbers
+    Then I should have <left> cucumbers
+    Then I should have <left> cucumbers
 
     Examples:
       | start | eat | left |
