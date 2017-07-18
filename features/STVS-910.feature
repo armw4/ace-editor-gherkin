@@ -17,8 +17,12 @@ Feature: Multiple site support
       |  20   |  5  |  15  |
 
   Scenario: Dr. Bill posts to his own blog
-    Given I am logged in as Dr. Bill
+    Given I am logged in as Dr. Bill jioo
     When I try to post to "Expensive Therapy"
+    Then I should see "Your article was published."
+    Given a global administrator named "Greg" Given Hi there and stuff done
+    And a blog named "Expensive Therapy" owned by "Dr. Bill"
+    But I am home
     Then I should see "Your article was published."
 
   Scenario: Dr. Bill tries to post to somebody else's blog, and fails
