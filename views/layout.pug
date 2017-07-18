@@ -126,10 +126,12 @@ html
 
     editor.session.setMode(new GherkinMode());
     editor.setTheme('ace/theme/twilight');
+
     editor.$blockScrolling = Infinity;
     editor.setOptions({
         enableBasicAutocompletion: true,
-        enableLiveAutocompletion: true
+        enableLiveAutocompletion: true,
+        displayIndentGuides: true
     });
 
     // uses http://rhymebrain.com/api.html
