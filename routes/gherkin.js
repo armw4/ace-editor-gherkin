@@ -27,12 +27,6 @@ router.get('/steps', async(req, res) => {
 router.get('/:issueKey', async (req, res) => {
   try {
     const { issueKey } = req.params;
-    const stepsExist = await step.exists(req.organizationId, issueKey);
-
-    if (!stepsExist) {
-      return res.sendStatus(404);
-    }
-
     const featureFile = await github.getFeatureFile(issueKey);
 
     res.send(camelize(featureFile));
