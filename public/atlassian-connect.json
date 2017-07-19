@@ -13,11 +13,16 @@
    "apiVersion": 1,
    "modules": {
      "webPanels": [{
-       "url": "/index.html&projectId={project.id}",
+       "url": "/index.html?projectId={project.id}",
        "key": "gherkin-web-panel",
        "location": "atl.jira.view.issue.left.context",
        "name": {
          "value": "Gherkin Editor"
+       },
+       "weight": 1000,
+       "layout": {
+         "height": "500px",
+         "width": "530px"
        }
      }]
    }
