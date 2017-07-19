@@ -17,11 +17,11 @@
        "key": "gherkin-web-panel",
        "location": "atl.jira.view.issue.left.context",
        "name": {
-         "value": "Gherkin Editor"
+         "value": "Scenario"
        },
        "weight": 1000,
        "layout": {
-         "height": "500px",
+         "height": "310px",
          "width": "100%"
        }
      }]

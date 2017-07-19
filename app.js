@@ -24,7 +24,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use((req, _, next) => {
-  req.organizationId = 'ambrose-1290';
+  req.origin = req.query.xdm_e || req.body.origin;
   next();
 });
 
