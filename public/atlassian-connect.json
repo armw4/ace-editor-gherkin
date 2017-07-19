@@ -1,0 +1,24 @@
+{
+   "name": "Dat Editor",
+   "description": "Atlassian Dat Editor add-on",
+   "key": "com.example.wimber.ly",
+   "baseUrl": "https://7746cd67.ngrok.io",
+   "vendor": {
+     "name": "Antwan Wimberly",
+     "url": "https://gist.github.com/armw4"
+   },
+   "authentication": {
+     "type": "none"
+   },
+   "apiVersion": 1,
+   "modules": {
+     "webPanels": [{
+       "url": "/index.html&projectId={project.id}",
+       "key": "gherkin-web-panel",
+       "location": "atl.jira.view.issue.left.context",
+       "name": {
+         "value": "Gherkin Editor"
+       }
+     }]
+   }
+ }
