@@ -5,4 +5,5 @@ Feature: Hey there a second time
     And I am love rice a second time
     Then I should never eat McDonald's again a second time
     But I can't work for QAS-Labs a second time
+    And I am Alexander and not Bobby
     
