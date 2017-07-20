@@ -92,7 +92,8 @@ html
 
         var url = '/gherkin/' + encodeURIComponent(issueKey);
         var body = {
-            content: editor.getValue()
+            content: editor.getValue(),
+            origin: getUrlParam('xdm_e')
         };
         var headers = new Headers();
 
@@ -112,7 +113,7 @@ html
     }
 
     (function () {
-        var url = '/gherkin/' + encodeURIComponent(issueKey);
+        var url = '/gherkin/' + encodeURIComponent(issueKey) + '?origin=' + encodeURIComponent(getUrlParam('xdm_e'));
 
         fetch(url)
         .then(validateResponse)
@@ -160,7 +161,7 @@ html
                 return callback(null, []);
             }
 
-            var url = '/gherkin/steps?q=' + encodeURIComponent(text);
+            var url = '/gherkin/steps?q=' + encodeURIComponent(text) + '&origin=' + encodeURIComponent(getUrlParam('xdm_e'));
 
             fetch(url)
             .then(validateResponse)

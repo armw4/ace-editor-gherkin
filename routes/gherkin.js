@@ -8,6 +8,16 @@ const handleError = require('../lib/errors').handleError;
 const gherkin = require('../lib/gherkin');
 const camelize = require('camelize');
 
+router.use((req, res, next) => {
+  req.origin = req.query.origin || req.body.origin;
+
+  if (!req.origin) {
+    return res.status(422).send('origin is required. please provide via query string or request body');
+  }
+
+  next();
+});
+
 router.get('/steps', async(req, res) => {
   try {
     const { q } = req.query;
@@ -40,8 +50,9 @@ router.put('/:issueKey', async (req, res) => {
     const { issueKey } = req.params;
     const { content } = req.body;
     const { origin } = req;
-    const stepsExist = await step.exists(origin, issueKey);
-    const githubWrite = stepsExist ? github.updateFeatureFile : github.createFeatureFile;
+    const featureExists = await github.featureFileExists(issueKey);
+
+    const githubWrite = featureExists ? github.updateFeatureFile : github.createFeatureFile;
     const { feature } = gherkin.parse(content);
     const { background: { steps: backgroundSteps }, scenarios } = feature;
     const scenarioSteps = scenarios.map(({ steps }) => steps).reduce((acc, steps) => [...acc, ...steps], []);
